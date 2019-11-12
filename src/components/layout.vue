@@ -26,9 +26,10 @@ export default {
 <style scoped>
 .el-main {
     background-color: #f6f6f6;
-    color: #333;
+    color: rgb(61, 56, 56);
     text-align: center;
     line-height: 10px;
+    
   }
 
 </style>
