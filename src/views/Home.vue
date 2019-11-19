@@ -35,10 +35,10 @@ export default {
   },
   methods: {
     load(){
-      Request.recommend()
+      Request.article(1,6)
         .then(res=>{
           window.console.log(res.data);
-          let data = res.data.data;
+          let data = res.data;
           this.recommendArticles = data.content;
           this.totalPages = data.totalPages;
           this.loading=false;
