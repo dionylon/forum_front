@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="recommend-list" v-loading="loading" v-cloak>
+    <div class="recommend-list">
       <div class="recommend-list-item"
         v-for="article in recommendArticles"
         :key="article.id"
@@ -12,6 +12,9 @@
           </div>
           <el-button class="button-more">阅读全文</el-button>
         </div>
+      </div>
+      <div class="scroll-tips" v-loading="loading" v-cloak>
+        <span class="scroll-tips-text">{{tips}}</span>
       </div>
     </div>
   </div>
@@ -27,25 +30,59 @@ export default {
     return {
       recommendArticles:[],
       totalPages: 0,
-      loading: true
+      currentPage: 1,
+      pageSize: 5,
+      loading: false,
+      require: true,
+      end: false,
+      tips: ""
     }
   },
   created() {
-    this.load();
+    this.currentPage = 1;
+    this.loading = true;
+    Request.getArticlePage(this.currentPage,this.pageSize)
+      .then(res=>{
+        this.recommendArticles = res.data.content;
+        this.loading = false;
+        this.end = res.data.last;
+        console.log(res.data);
+        console.log(this.recommendArticles);
+        this.tips = "";
+      }).catch(err=>{
+        console.log(err);
+      });
+  },
+  mounted(){
+    window.addEventListener('scroll',this.loadMore);
   },
   methods: {
-    load(){
-      Request.article(1,6)
-        .then(res=>{
-          window.console.log(res.data);
-          let data = res.data;
-          this.recommendArticles = data.content;
-          this.totalPages = data.totalPages;
-          this.loading=false;
-        })
-        .catch(err => {
-          window.console.log(err);
-        });
+    loadMore(){
+      console.log(localStorage.getItem("username"));
+      if(!this.end && document.documentElement.offsetHeight - window.innerHeight - document.documentElement.scrollTop < 30){
+        console.log("bottom");
+        this.loading = true;
+        Request.getArticlePage(this.currentPage+1,this.pageSize)
+          .then(res=>{
+            let data = res.data;
+            for(let i = 0; i < data.content.length; ++i){
+              this.recommendArticles.push(data.content[i]);
+            }
+            this.totalPages = data.totalPages;
+            this.end = data.last;
+            this.loading=false;
+            this.currentPage++;
+            window.console.log(res.data);
+            if(this.end){
+              this.tips = "没有更多了..";
+            }
+            console.log(this.recommendArticles);
+          })
+          .catch(err => {
+            this.tips = "加载失败了..."
+            window.console.log(err);
+          });
+      }
     }
   }
 }
@@ -95,6 +132,12 @@ export default {
       }
     }
   }
+}
+.scroll-tips{
+  padding-top: 20px;
+  text-align: center;
+  color: #175199;
+  height: 40px;
 }
 .v-cloak{
   display: none;

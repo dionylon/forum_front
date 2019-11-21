@@ -19,7 +19,12 @@
         <router-link to="/home" class="m-header-nav-item">首页</router-link>
         <router-link to="/find" class="m-header-nav-item">发现</router-link>
       </div>
-      <el-button class="sign-up" @click="signUp">登录/注册</el-button>
+      <el-button class="ask-button">提问</el-button>
+      <div class="user-info-div">
+        <el-button class="sign-up" @click="signUp" v-if="!logged">登录</el-button>
+        <el-button class="sign-up" v-if="logged">{{username}}</el-button>
+        <el-button class="sign-up" @click="logout" v-if="logged">退出</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,11 +36,28 @@ export default {
   name: "m-header",
   data() {
     return {
+      username: '',
+      logged: false
+    }
+  },
+  created(){
+    router.push("/home");
+    console.log("created");
+    this.username = localStorage.getItem("username");
+    if(this.username != undefined && this.username!=''){
+      this.logged = true;
+    }else{
+      this.logged = false;
     }
   },
   methods: {
     signUp(){
-      router.push("/signUp");
+      router.push("/signIn");
+    },
+    logout(){
+      this.logged = false;
+      localStorage.setItem("username",undefined);
+      localStorage.setItem("token",undefined);
     }
   }
 }
@@ -76,20 +98,35 @@ export default {
         }
       }
     }
-    .sign-up:hover {
-      color: #0084ff;
-      font-weight: bolder;
+    .ask-button {
+      padding: 0 14px;
+      font-size: 14px;
+      z-index: 103;
+      line-height: 30px;
+      background-color: #0084ff;
+      color: #fff;
+      border: 1px solid;
+      border-color: #0084ff;
+      border-radius: 3px;
     }
-    .sign-up {
-      border: none;
-      text-decoration: none;
-      outline: none;
-      line-height: 24px;
-      margin: auto;
-      text-align: center;
-      font-size: 15px;
-      color: #0084ff;
-      background-color: transparent;
+    .user-info-div {
+      width: 20%;
+      .sign-up:hover {
+        color: #0084ff;
+        font-weight: bolder;
+      }
+      .sign-up {
+        width: 60px;
+        border: none;
+        text-decoration: none;
+        outline: none;
+        line-height: 24px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 15px;
+        color: #0084ff;
+        background-color: transparent;
+      }
     }
   }
 }

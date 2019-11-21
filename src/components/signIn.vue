@@ -22,21 +22,45 @@
       </div>
     </div>
     <div class="submit">
-      <el-button class="button-submit">登录</el-button>
+      <el-button class="button-submit" @click="login">登录</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import Request from '@/util/request.js';
 import router from "../router/index";
+import StatusCode from "@/util/StatusCode.js";
+
 export default {
     data() {
         return {
           inputName: '',
-          inputPassword: ''
+          inputPassword: '',
+          tips: ''
         }
     },
     methods: {
+      login() {
+        Request.login(this.inputName,this.inputPassword)
+          .then(res=>{
+            console.log(res);
+            let data = res.data;
+            if(data.status == StatusCode.OK){
+              localStorage.setItem("username",this.inputName)
+              console.log("userName:" + localStorage.getItem("username"));
+              console.log("OK, token" + data.token);
+              this.$message({
+                message: '登陆成功!',
+                type: 'success',
+                duration: 1000
+              });
+              setTimeout(()=>{router.push('/home');},1000);
+            }
+          })
+        console.log(this.inputName);
+        console.log(this.inputPassword);
+      },
       signUp(){
         router.push('/signUp');
       }
