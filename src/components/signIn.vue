@@ -48,8 +48,9 @@ export default {
             let data = res.data;
             if(data.status == StatusCode.OK){
               localStorage.setItem("username",this.inputName)
+              localStorage.setItem("userId",data.userId);
               console.log("userName:" + localStorage.getItem("username"));
-              console.log("OK, token" + data.token);
+              console.log("OK, token" + data.token +"\n id:"+data.userId);
               this.$message({
                 message: '登陆成功!',
                 type: 'success',

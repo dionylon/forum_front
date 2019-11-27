@@ -29,7 +29,6 @@ export default {
     color: rgb(61, 56, 56);
     text-align: center;
     line-height: 10px;
-    
   }
 
 </style>

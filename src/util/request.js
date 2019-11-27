@@ -1,16 +1,23 @@
-import API from "./api";
 import axios from "axios";
 const myAxios = axios;
+const API = "http://localhost:8088/api";
 const Request = {
-  getArticlePage(page = 1, size = 10){
-    return myAxios.get(API.articles,{params: {page: page, size: size}});
+  get(url,param){
+    return myAxios.get(`${API}`+url,param);
   },
-  recommend() {
-    return myAxios.get(API.recommend+"?page=1&size=10");
+  getArticleById(id) {
+    return myAxios.get(`${API}/article/`+id);
+  },
+  getArticlePage(page = 1, size = 10) {
+    return myAxios.get(`${API}/article/page/` + page + `/size/` + size);
   },
   login(username, password) {
     let data = {"username":username, "password": password};
-    return myAxios.post(API.login, data);
+    return myAxios.post(`${API}/login`, data);
+  },
+  thumbUpArticle(userId, articleId) {
+    // let data = { "userId": userId, "articleId": articleId};
+    return myAxios.post(`${API}/article/thumbUp/`+userId+'/'+articleId);
   }
 };
 

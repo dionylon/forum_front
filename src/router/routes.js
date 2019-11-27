@@ -31,6 +31,11 @@ const routes = [
     {
       path: '/signUp',
       component: () => import('@/components/signIn.vue')
+    },
+    {
+      path: '/article',
+      name: 'openArticle',
+      component: () => import('@/components/article.vue')
     }
   ]
 

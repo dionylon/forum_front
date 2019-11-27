@@ -17,7 +17,7 @@
     </div>
       <div class="m-header-nav">
         <router-link to="/home" class="m-header-nav-item">首页</router-link>
-        <router-link to="/find" class="m-header-nav-item">发现</router-link>
+        <!-- <router-link to="/find" class="m-header-nav-item">发现</router-link> -->
       </div>
       <el-button class="ask-button">提问</el-button>
       <div class="user-info-div">
@@ -41,7 +41,6 @@ export default {
     }
   },
   created(){
-    router.push("/home");
     console.log("created");
     this.username = localStorage.getItem("username");
     if(this.username != undefined && this.username!=''){
@@ -55,9 +54,12 @@ export default {
       router.push("/signIn");
     },
     logout(){
+      console.log("登出");
       this.logged = false;
-      localStorage.setItem("username",undefined);
-      localStorage.setItem("token",undefined);
+      localStorage.setItem("username",'');
+      localStorage.setItem("token",'');
+      localStorage.setItem("userId",-1);
+      console.log(localStorage.getItem("userId"));
     }
   }
 }
@@ -69,13 +71,13 @@ export default {
   width: 100%;
   overflow: hidden;
   background-color: #fff;
-  box-shadow: 0 3px 6px rgba(26, 26, 26, 0.1);
-  -webkit-box-shadow: 0 3px 6px rgba(26, 26, 26, 0.1);
+  box-shadow: 0 3px 6px rgba(13, 13, 13, 0.05);
+  -webkit-box-shadow: 0 3px 6px rgba(13, 13, 13, 0.05);
     .m-header-container {
       display: flex;
       align-items: center;
       height: 52px;
-      width: 777px;
+      width: 55%;
       margin: auto 377px;
     .m-logo {
       height: 40px;

@@ -5,12 +5,12 @@
         v-for="article in recommendArticles"
         :key="article.id"
         >
-        <h3 class="article-title">{{ article.title }}</h3>
+        <h3 class="article-title" @click="openArticle(article.id)">{{ article.title }}</h3>
         <div class="article-container">
           <div class="article-content">
                 {{ article.content }}
           </div>
-          <el-button class="button-more">阅读全文</el-button>
+          <el-button class="button-more" @click="openArticle(article.id)">阅读全文</el-button>
         </div>
       </div>
       <div class="scroll-tips" v-loading="loading" v-cloak>
@@ -22,6 +22,7 @@
 
 <script>
 import Request from "@/util/request.js";
+import router from '../router';
 export default {
   name: 'home',
   components: {
@@ -57,6 +58,18 @@ export default {
     window.addEventListener('scroll',this.loadMore);
   },
   methods: {
+    openArticle(id){
+      // 在新窗口打开文章
+      console.log(id);
+      let routeData = router.resolve({
+        path: "/article",
+        name: "openArticle",
+        query: {
+            articleId: id
+          }
+      });
+      window.open(routeData.href, '_blank');
+    },
     loadMore(){
       console.log(localStorage.getItem("username"));
       if(!this.end && document.documentElement.offsetHeight - window.innerHeight - document.documentElement.scrollTop < 30){
@@ -91,7 +104,8 @@ export default {
 .home {
   min-height: 600px;
   background: #fff;
-  width: 777px;
+  width: 60%;
+  max-width: 777px;
   margin: 40px auto auto auto;
   box-shadow: 0 3px 6px rgba(13, 13, 13, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(13, 13, 13, 0.1);
