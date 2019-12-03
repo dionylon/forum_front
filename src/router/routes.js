@@ -2,40 +2,39 @@
 const routes = [
     {
       path: '/',
-      component: () => import('@/components/layout.vue'),
+      component: () => import('@/pages/layout.vue'),
       children: [
         { 
           path: '/',
           name: 'index',
-          component: () => import('@/views/Home.vue'),
+          component: () => import('@/pages/Home.vue'),
           title: '主页'
         },
         { 
           path: '/home',
           name: 'home',
-          component: () => import('@/views/Home.vue'),
+          component: () => import('@/pages/Home.vue'),
           title: '主页'
-        },
-        { 
-            path: '/find',
-            name: 'find',
-            component: () => import('@/views/Find.vue'),
-            title: '发现'
         }
       ]
     },
     {
       path: '/signIn',
-      component: () => import('@/components/signIn.vue')
+      component: () => import('@/pages/sign/signIn.vue')
     },
     {
       path: '/signUp',
-      component: () => import('@/components/signIn.vue')
+      component: () => import('@/pages/sign/signIn.vue')
     },
     {
       path: '/article',
       name: 'openArticle',
-      component: () => import('@/components/article.vue')
+      component: () => import('@/pages/article/article.vue')
+    },
+    {
+      path: '/write',
+      name: 'writeArticle',
+      component: () => import('@/pages/article/write.vue')
     }
   ]
 
