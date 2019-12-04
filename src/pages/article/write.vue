@@ -98,6 +98,10 @@ export default {
       })
         .then(() => {
           this.uploadArticle();
+          this.$notify({
+          title: '发布成功!',
+          offset: 100
+          });
           this.$router.push('/home');
         })
         .catch(() => {});

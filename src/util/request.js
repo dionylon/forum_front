@@ -21,6 +21,13 @@ const Request = {
   thumbUpArticle(userId, articleId) {
     // let data = { "userId": userId, "articleId": articleId};
     return axios.post(`${API}/article/thumbUp/`+userId+'/'+articleId);
+  },
+  getCommentsByArticleId(articleId){
+    return axios.get(`${API}/article/`+ articleId +'/comments');
+  },
+  publishComment(userId, articleId, content){
+    let data={"userId":userId, "content":content};
+    return axios.post(`${API}/`+"article/"+articleId+"/comment",data);
   }
 };
 

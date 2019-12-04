@@ -5,6 +5,7 @@
       <div class="base-bar">
         <div class="article-top-bar">
           <div class="article-title">{{article.title}}</div>
+          
           <div class="btn-group">
             <el-button
               class="like-btn-done"
@@ -18,16 +19,30 @@
               icon="el-icon-caret-top"
               v-else
             >{{hasLikeTips}} {{thumbUp}}</el-button>
-            <el-button class="collect-btn" @click="collection">收藏</el-button>
+            <!-- <el-button class="collect-btn" @click="collection">收藏</el-button> -->
             <el-button class="comment-btn" @click="commentShow=true">评论</el-button>
             <el-dialog class="comment-dialog" title="评论" :visible.sync="commentShow">
-              
+              <el-input
+                class="comment-input"
+                type="textarea"
+                autofocus="true"
+                autosize
+                placeholder="留下评论吧"
+                v-model="commentContent"
+              />
+              <el-button class="comment-publish" @click="publishComment">发布</el-button>
             </el-dialog>
           </div>
         </div>
       </div>
       <div class="article-panel">
-        <div class="article-content">{{article.content}}</div>
+        <div class="article-content">
+          <markdown v-if="article" :source="article.content"></markdown>
+          <div>{{article.content}}</div>
+        </div>
+        <div class="comment-container">
+          <comment :articleId="articleId"></comment>
+        </div>
       </div>
     </div>
   </div>
@@ -38,12 +53,18 @@ import header from "@/components/header.vue";
 import Request from "@/util/request.js";
 import router from "@/router/index.js";
 import StatusCode from "@/util/StatusCode.js";
+import markdown from "@/components/markdown.vue";
+import comment from "@/components/comment.vue";
+
 export default {
   name: "articleCard",
   data() {
     return {
+      commentContent: "",
       commentShow: false,
-      article: "",
+      articleId: -1,
+      content: "",
+      article: {},
       thumbUp: 0,
       userId: -1,
       likeTips: "赞同",
@@ -52,11 +73,14 @@ export default {
     };
   },
   components: {
+    comment,
+    markdown,
     "m-header": header
   },
   created() {
     console.log(this.$route.query);
     this.getArticle(this.$route.query.articleId);
+    this.articleId = this.$route.query.articleId;
     this.userId = localStorage.getItem("userId");
     if (this.userId > 0) {
       this.setThumbUp();
@@ -83,6 +107,8 @@ export default {
         console.log(res.data);
         this.article = res.data;
         this.thumbUp = res.data.thumbUp;
+        this.content = res.data.content;
+        console.log(this.article);
       });
     },
     like() {
@@ -98,6 +124,20 @@ export default {
           this.isThumbUp = !this.isThumbUp;
         });
       }
+    },
+    publishComment() {
+      let userId = localStorage.getItem("userId");
+      Request.publishComment(userId, this.articleId, this.commentContent)
+      .then(res => {
+          console.log(res.data);
+          this.$notify({
+          title: '评论成功!',
+          offset: 100
+          });
+        }).catch(err => {
+            console.log(err);
+          });
+      this.commentShow = false;
     }
   }
 };
@@ -153,15 +193,19 @@ export default {
           color: #fff;
         }
         .comment-dialog {
+          width: auto;
           color: #0084ff;
+          .comment-input {
+            font-size: 13pt;
+          }
+          .comment-publish {
+            margin-top: 10px;
+          }
         }
       }
     }
   }
   .article-panel {
-    .article-content {
-      color: #111;
-    }
     box-shadow: 0 3px 6px rgba(13, 13, 13, 0.1);
     -webkit-box-shadow: 0px 0px 5px rgba(13, 13, 13, 0.1);
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
@@ -176,10 +220,17 @@ export default {
     width: 100%;
     max-width: 600px;
     padding: 20px 40px;
-    min-height: 1000px;
+    height: 100%;
+    min-height: 600px;
     margin: 0 auto;
     text-align: center;
     line-height: 27px;
+    .article-content {
+      text-align: left;
+      min-height: 400px;
+      color: #111;
+      margin-bottom: 20px;
+    }
   }
 }
 </style>

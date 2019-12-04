@@ -4,10 +4,10 @@
       <div class="recommend-list-item" v-for="article in recommendArticles" :key="article.id">
         <a class="article-title" @click="openArticle(article.id)">{{ article.title }}</a>
         <div class="article-container">
-          <div class="article-content">{{ article.content }}</div>
+          <markdown :source=article.content class="article-content" />
           <div class="item-footer-bar">
-            <!-- <el-button class="button-more" @click="openArticle(article.id)">阅读全文</el-button> -->
-            <el-button class="button-like">{{likeTips}} {{article.thumbUp}}</el-button>
+            <el-button class="button-more" @click="openArticle(article.id)">阅读全文</el-button>
+            <!-- <el-button class="button-like">{{tips}} {{article.thumbUp}}</el-button> -->
           </div>
         </div>
       </div>
@@ -19,10 +19,13 @@
 </template>
 
 <script>
+import markdown from '@/components/markdown.vue';
 import Request from "@/util/request.js";
 export default {
   name: "home",
-  components: {},
+  components: {
+    markdown
+  },
   data() {
     return {
       likeTips: "赞同",
@@ -138,7 +141,7 @@ export default {
       display: block;
       padding: 5px;
       .article-content {
-        max-height: 105px;
+        max-height: 90px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
