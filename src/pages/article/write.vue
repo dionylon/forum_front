@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <m-header></m-header>
+    <m-header :btnText="text" :clickHandler="publish"></m-header>
     <div class="editor-container">
       <div>
         <input class="title-edit" v-model="title" placeholder="在此处输入标题" />
@@ -17,9 +17,7 @@
           @save="save"
         />
       </div>
-      <div class="footer-bar">
-        <el-button class="button-publish" @click="publish">发布</el-button>
-      </div>
+      <div class="footer-bar"></div>
     </div>
   </div>
 </template>
@@ -41,6 +39,7 @@ export default {
       userId: -1,
       contentPlaceholder: "写点什么吧..",
       content: "",
+      text: "发布",
       title: "",
       toolbarOptions: {
         bold: true, // 粗体
@@ -90,6 +89,17 @@ export default {
       });
     },
     publish() {
+      if (this.title.length < 1) {
+        this.$message({
+          type: 'warning',
+          message: "请输入标题!",
+          duration: 1000
+        });
+        return;
+      }
+      if (this.userId < 0) {
+        this.$router.push("/signIn");
+      }
       this.$confirm("是否发布?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -99,10 +109,10 @@ export default {
         .then(() => {
           this.uploadArticle();
           this.$notify({
-          title: '发布成功!',
-          offset: 100
+            title: "发布成功!",
+            offset: 100
           });
-          this.$router.push('/home');
+          this.$router.push("/home");
         })
         .catch(() => {});
     },

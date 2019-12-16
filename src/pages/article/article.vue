@@ -8,7 +8,7 @@
           
           <div class="btn-group">
             <el-button
-              class="like-btn-done"
+              class="like-btn-d5one"
               icon="el-icon-caret-top"
               @click="like"
               v-if="!isThumbUp"
@@ -37,11 +37,11 @@
       </div>
       <div class="article-panel">
         <div class="article-content">
-          <markdown v-if="article" :source="article.content"></markdown>
+          <markdown v-if="article" :source=article.content></markdown>
           <div>{{article.content}}</div>
         </div>
         <div class="comment-container">
-          <comment :articleId="articleId"></comment>
+          <comment :articleId="articleId" v-if="commentAlive"></comment>
         </div>
       </div>
     </div>
@@ -60,6 +60,7 @@ export default {
   name: "articleCard",
   data() {
     return {
+      commentAlive: true,
       commentContent: "",
       commentShow: false,
       articleId: -1,
@@ -138,6 +139,14 @@ export default {
             console.log(err);
           });
       this.commentShow = false;
+      this.reloadComment();
+    },
+    reloadComment(){
+      this.commentAlive=false;
+      console.log(this.commentAlive);
+      this.$nextTick(()=>{
+        this.commentAlive=true;
+      })
     }
   }
 };
@@ -184,6 +193,7 @@ export default {
           PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC,
           WenQuanYi Micro Hei, sans-serif;
         font-size: 15px;
+        color: #0084ff;
         .like-btn {
           background: rgba(0, 132, 255, 0.1);
           color: #0084ff;
@@ -196,6 +206,7 @@ export default {
           width: auto;
           color: #0084ff;
           .comment-input {
+            font-family: 'Courier New', Courier, monospace;
             font-size: 13pt;
           }
           .comment-publish {
@@ -221,13 +232,13 @@ export default {
     max-width: 600px;
     padding: 20px 40px;
     height: 100%;
-    min-height: 600px;
+    min-height: 500px;
     margin: 0 auto;
     text-align: center;
     line-height: 27px;
     .article-content {
       text-align: left;
-      min-height: 400px;
+      min-height: 300px;
       color: #111;
       margin-bottom: 20px;
     }

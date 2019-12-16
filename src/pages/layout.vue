@@ -25,6 +25,7 @@ export default {
 </script>
 <style scoped>
 .el-main {
+    padding: 0;
     background-color: #f6f6f6;
     color: rgb(61, 56, 56);
     text-align: center;

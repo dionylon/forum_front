@@ -24,7 +24,7 @@ const routes = [
     },
     {
       path: '/signUp',
-      component: () => import('@/pages/sign/signIn.vue')
+      component: () => import('@/pages/sign/signUp.vue')
     },
     {
       path: '/article',
@@ -35,6 +35,11 @@ const routes = [
       path: '/write',
       name: 'writeArticle',
       component: () => import('@/pages/article/write.vue')
+    },
+    {
+      path: '/user/profile',
+      name: 'userProfile',
+      component: () =>import('@/pages/user/profile.vue')
     }
   ]
 

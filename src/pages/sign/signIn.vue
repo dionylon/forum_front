@@ -8,12 +8,12 @@
     <div class="form-container">
       <div class="input-name">
         <el-input placeholder="用户名" v-model="inputName">
-          <i slot="prefix" class="el-input__icon el-icon-user"></i>
+          <!-- <i slot="prefix" class="el-input__icon el-icon-user"></i> -->
         </el-input>
       </div>
       <div class="input-password">
         <el-input placeholder="密码" v-model="inputPassword" type="password">
-          <i slot="prefix" class="el-input__icon el-icon-user"></i>
+          <!-- <i slot="prefix" class="el-input__icon el-icon-user"></i> -->
         </el-input>
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
           offset: 100
           });
           setTimeout(() => {
-            router.push("/home");
+            history.go(-1);
           }, 1000);
         }
       });

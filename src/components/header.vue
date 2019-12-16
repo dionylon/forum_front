@@ -23,12 +23,11 @@
       </div>
       <div class="m-header-nav">
         <router-link to="/home" class="m-header-nav-item">首页</router-link>
-        <!-- <router-link to="/find" class="m-header-nav-item">发现</router-link> -->
       </div>
-      <el-button class="ask-button" @click="write">写文章</el-button>
+      <el-button class="ask-button" @click="clickHandler">{{btnText}}</el-button>
       <div class="user-info-div">
-        <el-button class="sign-up" @click="signUp" v-if="!logged">登录</el-button>
-        <el-button class="sign-up" v-if="logged">{{username}}</el-button>
+        <el-button class="sign-up" @click="signUp" v-if="!logged">登录/注册</el-button>
+        <el-button @click="userInfo" class="sign-up" v-if="logged">{{username}}</el-button>
         <el-button class="sign-up" @click="logout" v-if="logged">退出</el-button>
       </div>
     </div>
@@ -40,6 +39,22 @@ import router from "../router/index";
 
 export default {
   name: "m-header",
+  props: {
+    btnText: {
+      type: String,
+      default: "写文章"
+    },
+    clickHandler: {
+      type: Function,
+      default: () => {
+        let routeData = router.resolve({
+          path: "/write",
+          name: "writeArticle"
+        });
+        window.open(routeData.href, "_blank");
+      }
+    }
+  },
   data() {
     return {
       username: "",
@@ -56,14 +71,21 @@ export default {
     }
   },
   methods: {
-    // 跳转到写文章的页面，打开新窗口
-    write() {
+    userInfo() {
+      let userId = localStorage.getItem("userId");
+      if (userId == -1 || userId == undefined) {
+        this.push("/signIn");
+      }
       let routeData = router.resolve({
-        path: "/write",
-        name: "writeArticle"
+        path: "/user/profile",
+        name: "userProfile",
+        query: {
+          userId: userId
+        }
       });
       window.open(routeData.href, "_blank");
     },
+   
     signUp() {
       router.push("/signIn");
     },
@@ -81,7 +103,7 @@ export default {
 <style lang="less" scoped>
 .m-header {
   position: fixed;
-  z-index: 1501;
+  z-index: 1600;
   top: 0;
   height: 52px;
   width: 100%;
@@ -128,13 +150,14 @@ export default {
       border-radius: 3px;
     }
     .user-info-div {
-      width: 20%;
+      width: auto;
       .sign-up:hover {
         color: #0084ff;
         font-weight: bolder;
       }
       .sign-up {
-        width: 60px;
+        overflow: hidden;
+        width: auto;
         border: none;
         text-decoration: none;
         outline: none;

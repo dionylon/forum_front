@@ -18,6 +18,10 @@ const Request = {
     let data = {"username":username, "password": password};
     return axios.post(`${API}/login`, data);
   },
+  register(username, password){
+    let data = {"username":username, "password": password};
+    return axios.post(`${API}/register`, data);
+  },
   thumbUpArticle(userId, articleId) {
     // let data = { "userId": userId, "articleId": articleId};
     return axios.post(`${API}/article/thumbUp/`+userId+'/'+articleId);
@@ -28,6 +32,9 @@ const Request = {
   publishComment(userId, articleId, content){
     let data={"userId":userId, "content":content};
     return axios.post(`${API}/`+"article/"+articleId+"/comment",data);
+  },
+  getUserInfo(userId){
+    return axios.get(`${API}/user/`+userId);
   }
 };
 
