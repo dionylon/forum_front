@@ -47,11 +47,17 @@ export default {
     clickHandler: {
       type: Function,
       default: () => {
-        let routeData = router.resolve({
-          path: "/write",
-          name: "writeArticle"
-        });
-        window.open(routeData.href, "_blank");
+        let id = localStorage.getItem("userId");
+        if(id <0 || id == undefined){
+          router.push('/signIn');
+          return;
+        }
+        router.push('/write');
+        // let routeData = router.resolve({
+        //   path: "/write",
+        //   name: "writeArticle"
+        // });
+        // window.open(routeData.href, "_blank");
       }
     }
   },
@@ -115,8 +121,8 @@ export default {
     display: flex;
     align-items: center;
     height: 52px;
-    width: 55%;
-    margin: auto 377px;
+    width: 45%;
+    margin: 0 auto;
     .m-logo {
       height: 40px;
       width: 64px;

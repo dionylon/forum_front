@@ -35,6 +35,9 @@ const Request = {
   },
   getUserInfo(userId){
     return axios.get(`${API}/user/`+userId);
+  },
+  getArticlesByAuthorId(authorId){
+    return axios.get(`${API}/article/author/`+ authorId);
   }
 };
 

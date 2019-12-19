@@ -18,7 +18,7 @@
 import Request from "@/util/request.js";
 export default {
   props: {
-    userId: String
+    userId: Number
   },
   data() {
     return {

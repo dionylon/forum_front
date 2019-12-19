@@ -4,7 +4,9 @@
     <div class="article-container">
       <div class="base-bar">
         <div class="article-top-bar">
-          <div class="article-title">{{article.title}}</div>
+          <div class="article-title">{{article.title}}
+            <el-button @click="info(article.authorId)" class="article-author" >{{ article.authorName }}</el-button>
+          </div>
           
           <div class="btn-group">
             <el-button
@@ -38,7 +40,6 @@
       <div class="article-panel">
         <div class="article-content">
           <markdown v-if="article" :source=article.content></markdown>
-          <div>{{article.content}}</div>
         </div>
         <div class="comment-container">
           <comment :articleId="articleId" v-if="commentAlive"></comment>
@@ -65,7 +66,7 @@ export default {
       commentShow: false,
       articleId: -1,
       content: "",
-      article: {},
+      article: "",
       thumbUp: 0,
       userId: -1,
       likeTips: "赞同",
@@ -88,6 +89,9 @@ export default {
     }
   },
   methods: {
+    info(authorId){
+      this.$router.push({path:'/user/profile',query:{userId:authorId}});
+    },
     setThumbUp() {
       Request.get(
         "/article/thumbUp/" + this.userId + "/" + this.$route.query.articleId
@@ -128,6 +132,9 @@ export default {
     },
     publishComment() {
       let userId = localStorage.getItem("userId");
+      if(userId < 0 || userId == undefined){
+        this.$router.push('/signIn');
+      }
       Request.publishComment(userId, this.articleId, this.commentContent)
       .then(res => {
           console.log(res.data);
@@ -181,6 +188,14 @@ export default {
         top: 100px;
         padding: 16px 0;
         overflow: hidden;
+        background: #fff;
+      }
+      .article-author {
+        border: none;
+        font-size: 14pt;
+        color: #111;
+      }
+      .article-author:hover{
         background: #fff;
       }
       .btn-group {

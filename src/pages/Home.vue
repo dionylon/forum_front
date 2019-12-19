@@ -60,17 +60,17 @@ export default {
     openArticle(id) {
       // 在新窗口打开文章
       console.log(id);
-      let routeData = this.$router.resolve({
-        path: "/article",
-        name: "openArticle",
-        query: {
-          articleId: id
-        }
-      });
-      window.open(routeData.href, "_blank");
+      // let routeData = this.$router.resolve({
+      //   path: "/article",
+      //   name: "openArticle",
+      //   query: {
+      //     articleId: id
+      //   }
+      // });
+      // window.open(routeData.href, "_blank");
 
       // 在本窗口打开
-      // this.$router.push({path: '/article', query: {articleId: id}});
+      this.$router.push({path: '/article', query: {articleId: id}});
       
     },
     loadMore() {
@@ -115,7 +115,7 @@ export default {
   background: #fff;
   width: 100%;
   max-width: 600px;
-  margin: 40px auto auto auto;
+  margin: 60px auto auto auto;
   box-shadow: 0 3px 6px rgba(13, 13, 13, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(13, 13, 13, 0.1);
   .recommend-list-item {
