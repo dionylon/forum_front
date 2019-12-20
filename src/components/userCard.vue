@@ -6,7 +6,7 @@
         <div class="user-name">{{userInfo.name}}</div>
         <img class="user-gender" v-if='this.userInfo.gender==1' src="../assets/male.png" />
         <img class="user-gender" v-else src="../assets/female.png" />
-        <div class="follow-block">
+        <div class="follow-block" v-show="false">
           <div class="following">关注: {{userInfo.following}}</div>
           <div class="follower">粉丝: {{userInfo.fans}}</div>
         </div>
@@ -18,7 +18,7 @@
 import Request from "@/util/request.js";
 export default {
   props: {
-    userId: Number
+    userId: String
   },
   data() {
     return {

@@ -97,7 +97,7 @@ export default {
       console.log(this.inputPassword);
     },
     check() {
-      if (this.inputName.length < 3) {
+      if (this.inputName.length < 2) {
         this.$notify({
           title: "警告",
           message: "用户名过短",
@@ -130,7 +130,7 @@ export default {
     },
     inputName: function(newName, oldName) {
       console.log(newName + " " + oldName);
-      if (newName.length < 3) {
+      if (newName.length < 2) {
         console.log(newName.length);
         this.nameAlert = true;
       } else {

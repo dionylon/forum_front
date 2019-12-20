@@ -8,6 +8,9 @@ const Request = {
   post(url,data){
     return axios.post(`${API}`+url,data);
   },
+  delete(url){
+    return axios.delete(`${API}`+url)
+  },
   getArticleById(id) {
     return axios.get(`${API}/article/`+id);
   },
@@ -36,8 +39,14 @@ const Request = {
   getUserInfo(userId){
     return axios.get(`${API}/user/`+userId);
   },
+  updateUserInfo(userId,userInfo){
+    return axios.post(`${API}/user/`+userId,userInfo);
+  },
   getArticlesByAuthorId(authorId){
     return axios.get(`${API}/article/author/`+ authorId);
+  },
+  deleteArticle(articleId){
+    return axios.delete(`${API}/article/`+articleId);
   }
 };
 

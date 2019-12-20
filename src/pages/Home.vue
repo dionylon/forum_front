@@ -60,17 +60,17 @@ export default {
     openArticle(id) {
       // 在新窗口打开文章
       console.log(id);
-      // let routeData = this.$router.resolve({
-      //   path: "/article",
-      //   name: "openArticle",
-      //   query: {
-      //     articleId: id
-      //   }
-      // });
-      // window.open(routeData.href, "_blank");
+      let routeData = this.$router.resolve({
+        path: "/article",
+        name: "openArticle",
+        query: {
+          articleId: id
+        }
+      });
+      window.open(routeData.href, "_blank");
 
       // 在本窗口打开
-      this.$router.push({path: '/article', query: {articleId: id}});
+      // this.$router.push({path: '/article', query: {articleId: id}});
       
     },
     loadMore() {

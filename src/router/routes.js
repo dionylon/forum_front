@@ -32,6 +32,11 @@ const routes = [
       component: () => import('@/pages/article/article.vue')
     },
     {
+      path: '/article/update',
+      name: 'updateArticle',
+      component: () => import('@/pages/article/update.vue') 
+    },
+    {
       path: '/write',
       name: 'writeArticle',
       component: () => import('@/pages/article/write.vue')
