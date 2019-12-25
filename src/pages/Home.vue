@@ -6,6 +6,7 @@
         <div class="article-container">
           <markdown :source=article.content class="article-content" />
           <div class="item-footer-bar">
+          <div>{{article.thumbUp}}</div>
             <el-button class="button-more" @click="openArticle(article.id)">阅读全文</el-button>
             <!-- <el-button class="button-like">{{tips}} {{article.thumbUp}}</el-button> -->
           </div>
